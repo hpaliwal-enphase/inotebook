@@ -4,7 +4,14 @@ const express = require('express');
 connectToMongo();
 
 const app = express()
-const port = 3000
+const port = 5000 //reactjs will run on 3000 server
+
+app.use(express.json());
+
+//Available Routes
+app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/notes', require('./routes/notes'));
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
