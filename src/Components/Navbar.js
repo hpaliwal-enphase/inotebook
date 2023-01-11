@@ -18,8 +18,11 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/about">About</Link>
                             </li>
-
                         </ul>
+                        <form className="d-flex" role="search">
+                        <Link to="/login" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Login</Link>
+                        <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>
+                        </form>
                     </div>
                 </div>
             </nav>

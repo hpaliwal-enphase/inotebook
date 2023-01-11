@@ -31,6 +31,7 @@ router.post('/createuser', [
         })
         if(user){
             return res.status(400).json({
+                success: false,
                 error: "A user with this EmailID already exists."
             })
         }
@@ -52,13 +53,15 @@ router.post('/createuser', [
         const authToken = jwt.sign(payload, JWT_SECRET);
 
         res.json({
-            token: authToken
+            token: authToken,
+            success: true
         });
     }
     catch(error){
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
     
@@ -74,7 +77,7 @@ router.post('/login', [
     //Return Bad Request and the errors if there are errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array(), success: false });
     }
 
     const {email, password} = req.body;
@@ -83,7 +86,8 @@ router.post('/login', [
         console.log(user);
         if(!user){
             return res.status(400).json({
-                error: "This email is not registered with us."
+                error: "This email is not registered with us.",
+                success: false
             });
         }
 
@@ -91,7 +95,8 @@ router.post('/login', [
         console.log(pwdCompare);
         if(!pwdCompare){
             return res.status(400).json({
-                error: "Please enter correct credentials."
+                error: "Please enter correct credentials.",
+                success: false
             });
         }
 
@@ -103,12 +108,14 @@ router.post('/login', [
 
         const authToken = jwt.sign(payload, JWT_SECRET);
         res.json({
-            token: authToken
+            token: authToken,
+            success: true
         });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
 });
