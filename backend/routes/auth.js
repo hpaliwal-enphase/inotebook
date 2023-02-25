@@ -16,7 +16,6 @@ router.post('/createuser', [
     body('name', 'Not a valid name').isLength({ min: 3}),
     body('password', 'Not a valid password').isLength({ min: 5})
 ] , async(req, res)=>{
-
     //Return Bad Request and the errors if there are errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

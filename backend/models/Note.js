@@ -17,6 +17,10 @@ const NoteSchema = new Schema({
     tag: {
         type: String,
         default: "General"
+    },
+    colour: {
+        type: String,
+        default: "Blank"
     }
   });
 

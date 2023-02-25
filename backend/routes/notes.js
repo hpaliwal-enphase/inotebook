@@ -39,8 +39,8 @@ router.post('/addnote', fetchUser, [
 
     try {
         const userId = req.user.id;
-        const {title, description, tag} = req.body;
-        const userNote = await Note.create({user: userId, title, description, tag});
+        const {title, description, tag, colour} = req.body;
+        const userNote = await Note.create({user: userId, title, description, tag, colour});
         res.json(userNote);
     } catch (error) {
         console.error(error.message);
@@ -54,13 +54,13 @@ router.post('/addnote', fetchUser, [
 //ROUTE3: Update an existing note for a logged in user using a PUT request. Login is required.
 router.put('/updatenote/:id', fetchUser, async(req, res)=>{
 
-    const {title, description, tag} = req.body;
+    const {title, description, tag, colour} = req.body;
 
     
 
     try {
         const userId = req.user.id;
-        const {title, description, tag} = req.body;
+        const {title, description, tag, colour} = req.body;
 
         const newNote = {};
 
@@ -74,6 +74,10 @@ router.put('/updatenote/:id', fetchUser, async(req, res)=>{
     
         if(tag){
             newNote.tag = tag;
+        }
+
+        if(colour){
+            newNote.colour = colour;
         }
 
         //find the Note to be updated. Check Permissions.
