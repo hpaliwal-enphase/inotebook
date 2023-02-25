@@ -46,6 +46,7 @@ const Signup = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <h2 className="mb-4">Sign up to use iNotebook</h2>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" className="form-control" id="name" aria-describedby="emailHelp" name="name" value={credentials.name} onChange={handleTextChange} required/>

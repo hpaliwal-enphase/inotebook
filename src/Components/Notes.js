@@ -3,6 +3,7 @@ import AlertContext from '../context/alerts/AlertContext';
 import NotesContext from '../context/notes/NoteContext';
 import AddNote from './AddNote';
 import NoteItem from './NoteItem';
+import { useNavigate } from 'react-router-dom';
 
 const Notes = () => {
     const context = useContext(NotesContext);
@@ -11,27 +12,33 @@ const Notes = () => {
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext; 
 
+    const navigate = useNavigate();
     useEffect(() => {
-        getAllNotes()
+        if(localStorage.getItem('token')){
+            getAllNotes()
+        }
+        else{
+            navigate("/login");
+        }
         // eslint-disable-next-line
     }, []);
 
-    const [note, setNote] = useState({id: "", title:"", description:"", tag:"General"});
+    const [note, setNote] = useState({id: "", title:"", description:"", tag:"General", colour:"Blank"});
 
     const handleTextChange = (e) => {
         setNote({...note, [e.target.name]: e.target.value});
     }
 
     const handleSubmitClick = (note) =>{
-        editNote(note.id, note.title, note.description, note.tag);
+        editNote(note.id, note.title, note.description, note.tag, note.colour);
         ref2.current.click();
-        setNote({id: "", title:"", description:"", tag:"General"});
+        setNote({id: "", title:"", description:"", tag:"General", colour:"Blank"});
         showAlert("Note Edited Successfully", 'success');
     }
 
     const updateNote = (currentNote)=>{
         ref.current.click();
-        setNote({...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id});
+        setNote({...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id, colour: currentNote.colour});
     }
 
     const ref = useRef(null);
@@ -65,6 +72,13 @@ const Notes = () => {
                         <div className="mb-3">
                             <label htmlFor="tag" className="form-label">Tag</label>
                             <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange}/>
+                        </div>
+
+                        {/* for colour */}
+
+                        <div className="mb-3">
+                            <label htmlFor="colour" className="form-label">Colour</label>
+                            <input type="text" className="form-control" id="colour" name="colour" value={note.colour} onChange={handleTextChange}/>
                         </div>
                     </form>
                 </div>
