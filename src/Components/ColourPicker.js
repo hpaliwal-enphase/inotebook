@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 export const ColourPicker = (props) => {
   let modes = ["Light", "Warning", "Success", "Primary", "Danger"];
-  const [activeColour, setActiveColour] = useState("Light");
+  const [activeColour, setActiveColour] = useState("light");
   // console.log(props);
   const handleClick = (mode) =>{
     setActiveColour(mode);
