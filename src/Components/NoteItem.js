@@ -13,7 +13,7 @@ const NoteItem = (props) => {
     
     return (
         <div className="col-md-3">
-            <div className="card my-3 border border-light border-2" style={{backgroundColor:`${note.colour}`}}>
+            <div className="card my-3 shadow" style={{backgroundColor:`${note.colour}`}}>
                 <div className="card-body my-3">
                     <h5 className="card-title">{note.title}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{note.tag}</h6>

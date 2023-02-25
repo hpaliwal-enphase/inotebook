@@ -34,7 +34,6 @@ const Notes = () => {
         editNote(note.id, note.title, note.description, note.tag, note.colour);
         ref2.current.click();
         setNote({ id: "", title: "", description: "", tag: "General", colour: "Blank" });
-        showAlert("Note Edited Successfully", 'success');
     }
 
     const updateNote = (currentNote) => {

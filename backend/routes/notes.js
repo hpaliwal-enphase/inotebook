@@ -16,11 +16,15 @@ router.get('/fetchallnotes', fetchUser, async(req, res)=>{
     try {
         const userId = req.user.id;
         const userNotes = await Note.find({user: userId});
-        res.json(userNotes);
+        res.json({
+            userNotes: userNotes,
+            success: true
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
 })
@@ -33,7 +37,10 @@ router.post('/addnote', fetchUser, [
     //Return Bad Request and the errors if there are errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ 
+        errors: errors.array(),
+        success: false
+      });
     }
 
 
@@ -41,11 +48,15 @@ router.post('/addnote', fetchUser, [
         const userId = req.user.id;
         const {title, description, tag, colour} = req.body;
         const userNote = await Note.create({user: userId, title, description, tag, colour});
-        res.json(userNote);
+        res.json({
+            userNote: userNote,
+            success: true
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
 })
@@ -84,23 +95,29 @@ router.put('/updatenote/:id', fetchUser, async(req, res)=>{
         const note = await Note.findById(req.params.id);
         if(!note){
             res.status(404).json({
-                "error": "Note not found."  
+                "error": "Note not found."  ,
+                success: false
             })
         }
 
         if(userId !== note.user.toString()){
             res.status(401).json({
-                "error": "Access Denied to Note."
+                "error": "Access Denied to Note.",
+                success: false
             })
         }
 
         //Update the Note to be updated.
         const userNote = await Note.findByIdAndUpdate(req.params.id, {$set : newNote}, {new:true} );
-        res.json(userNote);
+        res.json({
+            userNote: userNote,
+            success: true
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
 })
@@ -115,23 +132,29 @@ router.delete('/deletenote/:id', fetchUser, async(req, res)=>{
         const note = await Note.findById(req.params.id);
         if(!note){
             res.status(404).json({
-                "error": "Note not found."  
+                "error": "Note not found.",
+                success: false  
             })
         }
 
         if(userId !== note.user.toString()){
             res.status(401).json({
-                "error": "Access Denied to Note."
+                "error": "Access Denied to Note.",
+                success: false
             })
         }
 
         //Delete the Note to be deleted.
         const deletedNote = await Note.findByIdAndDelete(req.params.id);
-        res.json({"success": `Note with ${deletedNote._id} has been deleted.`});
+        res.json({
+            message: `Note with ${deletedNote._id} has been deleted.`,
+            success: true
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
-            error: "Internal Server Error."
+            error: "Internal Server Error.",
+            success: false
         })
     }
 })

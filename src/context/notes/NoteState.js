@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import NotesContext from './NoteContext';
+import AlertContext from '../alerts/AlertContext';
 
 const NoteState = (props) => {
     const host = "http://localhost:5000";
     const notesInitial = []
 
     const [notes, setNotes] = useState(notesInitial);
+
+    const alertContext = useContext(AlertContext);
+    const {showAlert} = alertContext;
 
 
     //GET ALL NOTES
@@ -21,7 +25,14 @@ const NoteState = (props) => {
         response.then((responseData) => {
             return responseData.json();
         }).then((data) => {
-            setNotes(data);
+            if(data.success){
+                setNotes(data.userNotes);
+            }
+            else{
+                // showAlert("Boilerplate Error Msg");
+                showAlert("Note could not be fetched", "danger");
+                console.log("Boilerplate Error Log");
+            }
         })
 
     }
@@ -44,7 +55,16 @@ const NoteState = (props) => {
             return (responseData.json());
         }).then((data) => {
             console.log(data);
-            setNotes(notes.concat(data));
+            if(data.success){
+                setNotes(notes.concat(data.userNote));
+                showAlert("Note Added Successfully", "success");
+            }
+            else{
+                // showAlert("Boilerplate Error Msg");
+                showAlert("Note could not be added", "danger");
+                console.log("Boilerplate Error Log");
+            }
+            
         });
     }
 
@@ -91,17 +111,27 @@ const NoteState = (props) => {
             return (responseData.json());
         }).then((data) => {
 
-
-            //logic to edit notes state in client side
-            const notesCopy = JSON.parse(JSON.stringify(notes));
-            for (let i = 0; i < notes.length; i++) {
-                let element = notes[i];
-                if (element._id === id) {
-                    notesCopy[i] = data;
-                    break;
+            if(data.success){
+                //logic to edit notes state in client side
+                const notesCopy = JSON.parse(JSON.stringify(notes));
+                for (let i = 0; i < notes.length; i++) {
+                    let element = notes[i];
+                    if (element._id === id) {
+                        notesCopy[i] = data.userNote;
+                        break;
+                    }
                 }
+                setNotes(notesCopy);
+                showAlert("Note Edited Successfully", "success");
             }
-            setNotes(notesCopy);
+            else{
+                // showAlert("Boilerplate Error Msg");
+                showAlert("Note could not be edited", "danger");
+                console.log("Boilerplate Error Log");
+            }
+
+            
+            
         });
 
 

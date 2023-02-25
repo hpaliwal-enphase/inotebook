@@ -30,7 +30,7 @@ const AddNote = () => {
             addNote(note.title, note.description, note.tag, note.colour);
         }
         setNote({title:"", description:"", tag:"", colour:"Blank"});
-        showAlert("Note Added Successfully", "success");
+       
     }
 
     return (
