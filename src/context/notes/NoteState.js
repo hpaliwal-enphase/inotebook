@@ -43,6 +43,7 @@ const NoteState = (props) => {
         response.then((responseData) => {
             return (responseData.json());
         }).then((data) => {
+            console.log(data);
             setNotes(notes.concat(data));
         });
     }
