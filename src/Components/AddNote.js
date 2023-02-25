@@ -50,7 +50,7 @@ const AddNote = () => {
                     <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange}/>
                 </div>
                 {/* for colour */}
-                <div className="mb-3 d-flex w-50 py-3">
+                <div className="mb-3 d-flex w-75 py-3">
                     <label htmlFor="colour" className="form-label pe-3">Colour</label>
                     {/* <input type="text" className="form-control" id="colour" name="colour" value={note.colour} onChange={handleTextChange}/> */}
                     <ColourPicker updateColour={updateColour}/>

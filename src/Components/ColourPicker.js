@@ -15,16 +15,16 @@ export const ColourPicker = (props) => {
         props.updateColour("black");
         break;
     case "danger":
-        props.updateColour("red");
+        props.updateColour("#ffcccc");
         break;
     case "success":
-        props.updateColour("green");
+        props.updateColour("#ccffcc");
         break;
     case "primary":
-        props.updateColour("blue");
+        props.updateColour("#ccf5ff");
         break;
     case "warning":
-        props.updateColour("yellow");
+        props.updateColour("#ffffb3");
         break;
     default:
         props.updateColour("blank");
@@ -33,10 +33,10 @@ export const ColourPicker = (props) => {
   }
 
   return (
-    <div className='w-50 pe-5 d-flex d-flex justify-content-between'>
+    <div style={{width: '50vw'}} className='d-flex'>
         {modes.map((item, idx)=>{
             return(
-                <div id={idx} style={{width: '25px', height: '25px'}} className={`border border-dark rounded-circle bg-${item.toLowerCase()} opacity-50 ${activeColour === item.toLowerCase() ? `border-3`: 'border-1'}`} onClick={()=>{handleClick(item.toLowerCase())}} value={item.toLowerCase()}></div>
+                <div id={idx} style={{width: '1.6rem', height: '1.6rem'}} className={`border border-dark mx-2 rounded-circle bg-${item.toLowerCase()} opacity-50 ${activeColour === item.toLowerCase() ? `border-3`: 'border-1'}`} onClick={()=>{handleClick(item.toLowerCase())}} value={item.toLowerCase()}></div>
             )
         })}
     </div>

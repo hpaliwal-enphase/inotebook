@@ -4,41 +4,46 @@ import NotesContext from '../context/notes/NoteContext';
 import AddNote from './AddNote';
 import NoteItem from './NoteItem';
 import { useNavigate } from 'react-router-dom';
+import { ColourPicker } from './ColourPicker';
 
 const Notes = () => {
     const context = useContext(NotesContext);
     const { notes, getAllNotes, editNote } = context;
 
     const alertContext = useContext(AlertContext);
-    const { showAlert } = alertContext; 
+    const { showAlert } = alertContext;
 
     const navigate = useNavigate();
     useEffect(() => {
-        if(localStorage.getItem('token')){
+        if (localStorage.getItem('token')) {
             getAllNotes()
         }
-        else{
+        else {
             navigate("/login");
         }
         // eslint-disable-next-line
     }, []);
 
-    const [note, setNote] = useState({id: "", title:"", description:"", tag:"General", colour:"Blank"});
+    const [note, setNote] = useState({ id: "", title: "", description: "", tag: "General", colour: "Blank" });
 
     const handleTextChange = (e) => {
-        setNote({...note, [e.target.name]: e.target.value});
+        setNote({ ...note, [e.target.name]: e.target.value });
     }
 
-    const handleSubmitClick = (note) =>{
+    const handleSubmitClick = (note) => {
         editNote(note.id, note.title, note.description, note.tag, note.colour);
         ref2.current.click();
-        setNote({id: "", title:"", description:"", tag:"General", colour:"Blank"});
+        setNote({ id: "", title: "", description: "", tag: "General", colour: "Blank" });
         showAlert("Note Edited Successfully", 'success');
     }
 
-    const updateNote = (currentNote)=>{
+    const updateNote = (currentNote) => {
         ref.current.click();
-        setNote({...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id, colour: currentNote.colour});
+        setNote({ ...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id, colour: currentNote.colour });
+    }
+
+    const updateColour = (colour) => {
+        setNote({...note, colour: colour})
     }
 
     const ref = useRef(null);
@@ -47,47 +52,48 @@ const Notes = () => {
     return (
         <div className='row my-3'>
 
-            
+
             <button type="button" className="btn btn-primary d-none" ref={ref} data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Invisible Modal Trigger Button
+                Invisible Modal Trigger Button
             </button>
 
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="exampleModalLabel">Edit a Note</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                    <form>
-                        <div className="mb-3">
-                            <label htmlFor="title" className="form-label">Title</label>
-                            <input type="text" className="form-control" id="title" name="title" value={note.title} onChange={handleTextChange}/>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Edit a Note</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <input type="text" className="form-control" id="description" name="description" value={note.description} onChange={handleTextChange}/>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="tag" className="form-label">Tag</label>
-                            <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange}/>
-                        </div>
+                        <div className="modal-body">
+                            <form>
+                                <div className="mb-3">
+                                    <label htmlFor="title" className="form-label">Title</label>
+                                    <input type="text" className="form-control" id="title" name="title" value={note.title} onChange={handleTextChange} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="description" className="form-label">Description</label>
+                                    <input type="text" className="form-control" id="description" name="description" value={note.description} onChange={handleTextChange} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="tag" className="form-label">Tag</label>
+                                    <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange} />
+                                </div>
 
-                        {/* for colour */}
+                                {/* for colour */}
 
-                        <div className="mb-3">
-                            <label htmlFor="colour" className="form-label">Colour</label>
-                            <input type="text" className="form-control" id="colour" name="colour" value={note.colour} onChange={handleTextChange}/>
+                                <div className="mb-3 d-flex w-50 py-3">
+                                    <label htmlFor="colour" className="form-label pe-3">Colour</label>
+                                    {/* <input type="text" className="form-control" id="colour" name="colour" value={note.colour} onChange={handleTextChange}/> */}
+                                    <ColourPicker updateColour={updateColour} />
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" ref={ref2} data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={() => handleSubmitClick(note)}>Update Note</button>
+                        </div>
+                    </div>
                 </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" ref={ref2} data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" onClick={()=>handleSubmitClick(note)}>Update Note</button>
-                </div>
-                </div>
-            </div>
             </div>
 
 
@@ -95,11 +101,11 @@ const Notes = () => {
 
             <div className='my-3 row'>
                 <h2>Your Notes</h2>
-            {notes.length===0 ? 'No items to display' : 
-                notes.map((note) => {
-                    return (<NoteItem note={note} key={note._id} updateNote={updateNote} />)
-                })
-            }
+                {notes.length === 0 ? 'No items to display' :
+                    notes.map((note) => {
+                        return (<NoteItem note={note} key={note._id} updateNote={updateNote} />)
+                    })
+                }
             </div>
 
         </div>
