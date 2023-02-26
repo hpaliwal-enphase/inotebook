@@ -21,6 +21,10 @@ const NoteSchema = new Schema({
     colour: {
         type: String,
         default: "Blank"
+    },
+    isPinned:{
+        type: Boolean,
+        default: false
     }
   });
 

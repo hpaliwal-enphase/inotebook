@@ -31,16 +31,15 @@ const NoteState = (props) => {
             else{
                 // showAlert("Boilerplate Error Msg");
                 showAlert("Note could not be fetched", "danger");
-                console.log("Boilerplate Error Log");
             }
         })
 
     }
 
     //ADD A NOTE
-    const addNote = (title, description, tag, colour) => {
+    const addNote = (title, description, tag, colour, isPinned) => {
         console.log("adding a new note with tag");
-        const data = { title, description, tag, colour };
+        const data = { title, description, tag, colour, isPinned };
         //API Call
         const response = fetch(`${host}/api/notes/addnote`, {
             method: 'POST',
@@ -62,7 +61,6 @@ const NoteState = (props) => {
             else{
                 // showAlert("Boilerplate Error Msg");
                 showAlert("Note could not be added", "danger");
-                console.log("Boilerplate Error Log");
             }
             
         });
@@ -93,10 +91,10 @@ const NoteState = (props) => {
     }
 
     //EDIT A NOTE
-    const editNote = (id, title, description, tag, colour) => {
+    const editNote = (id, title, description, tag, colour, isPinned) => {
         console.log("editing note with id: " + id);
 
-        const data = { title, description, tag, colour };
+        const data = { title, description, tag, colour, isPinned };
         //API Call
         const response = fetch(`${host}/api/notes/updatenote/${id}`, {
             method: 'PUT',
@@ -127,7 +125,57 @@ const NoteState = (props) => {
             else{
                 // showAlert("Boilerplate Error Msg");
                 showAlert("Note could not be edited", "danger");
-                console.log("Boilerplate Error Log");
+            }
+
+        });
+    }
+
+    const pinNote = (note) => {
+        const {title, description, tag, colour} = note;
+        const id = note._id;
+        const isPinned = !note.isPinned;
+        console.log("pinning note with id: " + id);
+        
+
+        const dataPayload = { _id: id, title, description, tag, colour, isPinned };
+        console.log("pinning note " + JSON.stringify(dataPayload));
+        //API Call
+        const response = fetch(`${host}/api/notes/updatenote/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify(dataPayload)
+        });
+
+        response.then((responseData) => {
+            return (responseData.json());
+        }).then((data) => {
+
+            if(data.success){
+                //logic to pin notes state in client side
+                const notesCopy = JSON.parse(JSON.stringify(notes));
+                notes.forEach((note, idx) => {
+                    if(note._id === id){
+                        notesCopy.splice(idx,1);
+                        if(isPinned){
+                            notesCopy.unshift(dataPayload);
+                            return;
+                        }
+                        else{
+                            notesCopy.push(dataPayload);
+                            return;
+                        }
+                    }
+                })
+
+                setNotes(notesCopy);
+                showAlert("Pinning/Unpinning Successful", "success");
+                console.log(notes)
+            }
+            else{
+                showAlert("Note could not be pinned/unpinned", "danger");
             }
 
             
@@ -138,7 +186,7 @@ const NoteState = (props) => {
     }
 
     return (
-        <NotesContext.Provider value={{ notes, addNote, deleteNote, editNote, getAllNotes }}>
+        <NotesContext.Provider value={{ notes, addNote, deleteNote, editNote, pinNote, getAllNotes }}>
             {props.children}
         </NotesContext.Provider>
     )

@@ -11,28 +11,27 @@ import Alert from './Components/Alert';
 import Signup from './Components/Signup';
 import Login from './Components/Login';
 import AlertState from './context/alerts/AlertState';
+import ThemeState from './context/theme/ThemeState';
 import NoteState from './context/notes/NoteState';
+import MainRoutes from './MainRoutes';
+
 
 
 function App() {
 
+
   return (
     <>
       <AlertState>
-        <NoteState>
-          <Router>
-            <Navbar />
-            <Alert />
-            <div className='container my-3'>
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/about' element={<About />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<Signup />} />
-              </Routes>
-            </div>
-          </Router>
-        </NoteState>
+        <ThemeState>
+          <NoteState>
+            <Router>
+              <Navbar/>
+              <Alert/>
+              <MainRoutes />
+            </Router>
+          </NoteState>
+        </ThemeState>
       </AlertState>
     </>
   );

@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import AlertContext from '../context/alerts/AlertContext';
 import NotesContext from '../context/notes/NoteContext';
+import ThemeContext from '../context/theme/ThemeContext';
 import { ColourPicker } from './ColourPicker';
 
 
@@ -10,7 +11,10 @@ const AddNote = () => {
     const {addNote} = context;
     const {showAlert} = alertContext;
 
-    const [note, setNote] = useState({title:"", description:"", tag:"", colour:"Blank"});
+    const themeContext = useContext(ThemeContext);
+    const { theme } = themeContext;
+
+    const [note, setNote] = useState({title:"", description:"", tag:"", colour:"Blank", isPinned: false});
 
     const handleTextChange = (e) => {
         setNote({...note, [e.target.name]: e.target.value});
@@ -20,40 +24,42 @@ const AddNote = () => {
         setNote({...note, colour: colour})
     }
 
+
     const handleSubmitClick = (e) =>{
         e.preventDefault();
-        console.log(note.tag);
+        // console.log(note.tag);
+
         if(note.tag === ""){
-            addNote(note.title, note.description, "General");
+            addNote(note.title, note.description, "General", note.colour, false);
         }
         else{
-            addNote(note.title, note.description, note.tag, note.colour);
+            addNote(note.title, note.description, note.tag, note.colour, false);
         }
-        setNote({title:"", description:"", tag:"", colour:"Blank"});
-       
+        setNote({title:"", description:"", tag:"", colour:"Blank", isPinned: false });
+        
     }
 
     return (
-        <div>
+        <div data-bs-theme={theme} >
             <h2>Add a Note</h2>
-            <form>
+            <form data-bs-theme={theme} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="title" name="title" value={note.title} onChange={handleTextChange}/>
+                    <input type="text" className="form-control" id="title" name="title" value={note.title} onChange={handleTextChange} style={{color: '#000000'}}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" value={note.description} onChange={handleTextChange}/>
+                    <input type="text" className="form-control" id="description" name="description" value={note.description} onChange={handleTextChange} style={{color: '#000000'}}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
-                    <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange}/>
+                    <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange} style={{color: '#000000'}}/>
                 </div>
                 {/* for colour */}
                 <div className="mb-3 d-flex w-75 py-3">
                     <label htmlFor="colour" className="form-label pe-3">Colour</label>
                     {/* <input type="text" className="form-control" id="colour" name="colour" value={note.colour} onChange={handleTextChange}/> */}
-                    <ColourPicker updateColour={updateColour}/>
+                    <ColourPicker updateColour={updateColour} mode={theme}/>
                 </div>
 
 
