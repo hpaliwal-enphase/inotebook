@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertContext from '../context/alerts/AlertContext';
-
+import ThemeContext from '../context/theme/ThemeContext';
 
 
 const Login = () => {
@@ -11,6 +11,9 @@ const Login = () => {
 
     const alertContext = useContext(AlertContext);
     const {showAlert} = alertContext;
+
+    const themeContext = useContext(ThemeContext);
+    const { theme } = themeContext;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,16 +47,16 @@ const Login = () => {
 
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div data-bs-theme={theme} style={{height: '100vh'}}>
+            <form onSubmit={handleSubmit} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
                     
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="email" name="email" value={credentials.email} onChange={handleTextChange} aria-describedby="emailHelp"/>
+                    <input type="email" className="form-control" id="email" name="email"  style={{color:'#000000'}} value={credentials.email} onChange={handleTextChange} aria-describedby="emailHelp"/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className="form-control" value={credentials.password} name="password" onChange={handleTextChange} id="password"/>
+                    <input type="password" className="form-control" id="password" name="password"  style={{color:'#000000'}} value={credentials.password} onChange={handleTextChange} />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

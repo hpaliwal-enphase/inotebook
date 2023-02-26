@@ -137,7 +137,7 @@ const NoteState = (props) => {
         console.log("pinning note with id: " + id);
         
 
-        const dataPayload = { _id: id, title, description, tag, colour, isPinned };
+        const dataPayload = { _id: id, title, description, tag, colour, isPinned: isPinned };
         console.log("pinning note " + JSON.stringify(dataPayload));
         //API Call
         const response = fetch(`${host}/api/notes/updatenote/${id}`, {

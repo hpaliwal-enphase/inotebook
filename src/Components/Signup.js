@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertContext from '../context/alerts/AlertContext';
+import ThemeContext from '../context/theme/ThemeContext';
 
 const Signup = () => {
     const [credentials, setCredentials] = useState({name:"", email: "", password: "", confirmPassword: ""});
@@ -9,6 +10,9 @@ const Signup = () => {
 
     const alertContext = useContext(AlertContext);
     const {showAlert} = alertContext;
+
+    const themeContext = useContext(ThemeContext);
+    const { theme } = themeContext;
 
     const handleTextChange = (e) => {
         setCredentials({...credentials, [e.target.name]: e.target.value});
@@ -44,24 +48,24 @@ const Signup = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div data-bs-theme={theme} style={{height: '100vh'}}>
+            <form onSubmit={handleSubmit} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
                 <h2 className="mb-4">Sign up to use iNotebook</h2>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" aria-describedby="emailHelp" name="name" value={credentials.name} onChange={handleTextChange} required/>
+                    <input type="text" className="form-control" id="name" aria-describedby="emailHelp" name="name" style={{color:'#000000'}} value={credentials.name} onChange={handleTextChange} required/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="email" aria-describedby="emailHelp" name="email" value={credentials.email} onChange={handleTextChange} required/>
+                    <input type="email" className="form-control" id="email" aria-describedby="emailHelp" name="email" style={{color:'#000000'}} value={credentials.email} onChange={handleTextChange} required/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="password"  name="password" value={credentials.password} onChange={handleTextChange} minLength={5} required/>
+                    <input type="password" className="form-control" id="password"  name="password" style={{color:'#000000'}} value={credentials.password} onChange={handleTextChange} minLength={5} required/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" id="password"  name="confirmPassword" value={credentials.confirmPassword} onChange={handleTextChange} minLength={5} required/>
+                    <input type="password" className="form-control" id="password"  name="confirmPassword" style={{color:'#000000'}} value={credentials.confirmPassword} onChange={handleTextChange} minLength={5} required/>
                 </div>
                 <button type="submit" className="btn btn-primary">Sign Up</button>
             </form>

@@ -30,7 +30,13 @@ const Navbar = () => {
                         <form className="d-flex" role="search">
                         {
                             <div className='d-flex'>
-                                <button type="button" className="btn btn-primary mx-1" onClick={reverseTheme}>Switch Theme</button>
+                                <div className='d-flex align-items-center w-100 ms-1 me-4'>
+                                    {theme === "dark" ? (
+                                        <i className="fa-regular fa-sun d-flex light" style={{fontSize:'1.5rem', color:'#ffffff'}} onClick={reverseTheme} />
+                                    ) : (
+                                        <i className="fa-regular fa-moon d-flex" style={{fontSize:'1.5rem'}} onClick={reverseTheme}/>
+                                    )}
+                                </div>
                             {
                             (!localStorage.getItem('token')) ? 
                             <>

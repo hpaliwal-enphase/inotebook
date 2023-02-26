@@ -91,9 +91,7 @@ router.put('/updatenote/:id', fetchUser, async(req, res)=>{
             newNote.colour = colour;
         }
 
-        if(isPinned){
-            newNote.isPinned = isPinned;
-        }
+        newNote.isPinned = isPinned;
 
         //find the Note to be updated. Check Permissions.
         const note = await Note.findById(req.params.id);
