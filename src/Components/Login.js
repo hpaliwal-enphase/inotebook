@@ -48,15 +48,15 @@ const Login = () => {
 
     return (
         <div data-bs-theme={theme} style={{height: '100vh'}}>
-            <form onSubmit={handleSubmit} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
+            <form onSubmit={handleSubmit} data-bs-theme={theme} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
                     
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="email" name="email"  style={{color:'#000000'}} value={credentials.email} onChange={handleTextChange} aria-describedby="emailHelp"/>
+                    <input type="email" className={`form-control${theme === "dark" ? ' bg-dark' : ''}`} id="email" name="email"  value={credentials.email} onChange={handleTextChange} aria-describedby="emailHelp"/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="password" name="password"  style={{color:'#000000'}} value={credentials.password} onChange={handleTextChange} />
+                    <input type="password" className={`form-control${theme === "dark" ? ' bg-dark' : ''}`} id="password" name="password"  value={credentials.password} onChange={handleTextChange} />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

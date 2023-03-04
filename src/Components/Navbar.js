@@ -32,7 +32,7 @@ const Navbar = () => {
                             <div className='d-flex'>
                                 <div className='d-flex align-items-center w-100 ms-1 me-4'>
                                     {theme === "dark" ? (
-                                        <i className="fa-regular fa-sun d-flex light" style={{fontSize:'1.5rem', color:'#ffffff'}} onClick={reverseTheme} />
+                                        <i className="fa-regular fa-lightbulb d-flex light" style={{fontSize:'1.5rem', color:'#ffffff'}} onClick={reverseTheme} />
                                     ) : (
                                         <i className="fa-regular fa-moon d-flex" style={{fontSize:'1.5rem'}} onClick={reverseTheme}/>
                                     )}

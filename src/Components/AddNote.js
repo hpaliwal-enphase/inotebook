@@ -45,15 +45,15 @@ const AddNote = () => {
             <form data-bs-theme={theme} style={theme === "dark" ? {color: "#ffffff"} : {color: "#212529"}}>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="title" name="title" value={note.title} onChange={handleTextChange} style={{color: '#000000'}}/>
+                    <input type="text" className={`form-control${theme === "dark" ? ' bg-dark' : ''}`} id="title" name="title" value={note.title} onChange={handleTextChange}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" value={note.description} onChange={handleTextChange} style={{color: '#000000'}}/>
+                    <input type="text" className={`form-control${theme === "dark" ? ' bg-dark' : ''}`} id="description" name="description" value={note.description} onChange={handleTextChange}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
-                    <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={handleTextChange} style={{color: '#000000'}}/>
+                    <input type="text" className={`form-control${theme === "dark" ? ' bg-dark' : ''}`} id="tag" name="tag" value={note.tag} onChange={handleTextChange}/>
                 </div>
                 {/* for colour */}
                 <div className="mb-3 d-flex w-75 py-3">

@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import NotesContext from '../context/notes/NoteContext';
 import AlertContext from '../context/alerts/AlertContext';
+import "../App.css";
 
 const NoteItem = (props) => {
     const context = useContext(NotesContext);
@@ -17,7 +18,7 @@ const NoteItem = (props) => {
     
     return (
         <div className="col-md-3">
-            <div className="card my-3 shadow" style={{backgroundColor:`${note.colour}`}}>
+            <div className="card my-3 shadow carditem" style={{backgroundColor:`${note.colour}`}}>
                 <div className="card-body my-3">
                     <div className="d-flex justify-content-between">
                         <h5 className="card-title">{note.title}</h5>

@@ -5,8 +5,8 @@ const About = () => {
     const context = useContext(ThemeContext);
     const { theme } = context;
     return (
-        <div>
-            This is About.
+        <div data-bs-theme={theme} style={{height: '100vh'}}>
+            <h3>This is a secure cloud-based Notes manager application.</h3>
         </div>
     )
 }
