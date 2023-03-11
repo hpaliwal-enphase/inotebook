@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertContext from '../context/alerts/AlertContext';
 import ThemeContext from '../context/theme/ThemeContext';
+import UserContext from '../context/user/UserContext';
 
 const Signup = () => {
     const [credentials, setCredentials] = useState({name:"", email: "", password: "", confirmPassword: ""});
@@ -13,6 +14,9 @@ const Signup = () => {
 
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
+
+    const userContext = useContext(UserContext);
+    const { loggedInUser, setLoggedInUser } = userContext;
 
     const handleTextChange = (e) => {
         setCredentials({...credentials, [e.target.name]: e.target.value});
@@ -35,6 +39,7 @@ const Signup = () => {
             console.log(data);
             if(data.success){
                 //redirect
+                setLoggedInUser(data.userDetails);
                 localStorage.setItem('token', data.token);
                 showAlert("Account Created Successfully", "success");
                 navigate("/");

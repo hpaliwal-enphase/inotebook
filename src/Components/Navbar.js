@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ThemeContext from '../context/theme/ThemeContext';
+import UserContext from '../context/user/UserContext';
 
 const Navbar = () => {
     const themeContext = useContext(ThemeContext);
     const { theme, reverseTheme } = themeContext;
+
+    const userContext = useContext(UserContext);
+    const { loggedInUser } = userContext;
+
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -44,7 +49,10 @@ const Navbar = () => {
                                 <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>
                             </>
                               : (
-                                <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                <div className="d-flex justify-content-center">
+                                    <div className="me-4 navbar-brand">Hi {loggedInUser.name}!</div>
+                                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                </div>
                             )
                             }
                             </div>

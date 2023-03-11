@@ -14,6 +14,7 @@ import AlertState from './context/alerts/AlertState';
 import ThemeState from './context/theme/ThemeState';
 import NoteState from './context/notes/NoteState';
 import MainRoutes from './MainRoutes';
+import UserState from './context/user/UserState';
 
 
 
@@ -23,6 +24,7 @@ function App() {
   return (
     <>
       <AlertState>
+        <UserState>
         <ThemeState>
           <NoteState>
             <Router>
@@ -32,6 +34,7 @@ function App() {
             </Router>
           </NoteState>
         </ThemeState>
+        </UserState>
       </AlertState>
     </>
   );
