@@ -10,7 +10,7 @@ import { ColourPicker } from './ColourPicker';
 
 const Notes = () => {
     const context = useContext(NotesContext);
-    const { notes, getAllNotes, editNote, pinNote, addNote } = context;
+    const { notes, pinnedNotes, getAllNotes, editNote, pinNote, addNote } = context;
 
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
@@ -128,17 +128,16 @@ const Notes = () => {
             <div className='my-3 row'>
                 <h2>Your Notes</h2>
                 <AddNoteNew addNewNote={addNewNote}/>
-                {notes.length === 0 ? 'No items to display' :
+                {notes.length === 0 && pinnedNotes.length === 0 ? 'No items to display' :
                     <>
-                    {notes.map((note) => {
-                        if(note.isPinned){
-                            return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>)
-                        }
-                    })}{notes.map((note) => {
-                        if(!note.isPinned){
-                            return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>)
-                        }
+                    {/* {pinnedNotes.length === 0 ? '' : pinnedNotes.map((pinnedNote)=>{
+                        return(<NoteItem note={pinnedNote} key={pinnedNote._id} updateNote={updateNote}/>);
+                    })} */}
+
+                    {notes.length === 0 ? '' : notes.map((note)=>{
+                        return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>);
                     })}
+                    
                     </>
                 }
             </div>
@@ -146,5 +145,4 @@ const Notes = () => {
         </div>
     )
 }
-
-export default Notes
+export default Notes;
