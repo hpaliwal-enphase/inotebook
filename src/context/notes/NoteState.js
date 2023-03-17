@@ -1,16 +1,43 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import NotesContext from './NoteContext';
 import AlertContext from '../alerts/AlertContext';
 
 const NoteState = (props) => {
     const host = "http://localhost:5000";
-    const notesInitial = []
+    const notesInitial = [];
+    const pinnedNotesInitial = [];
 
     const [notes, setNotes] = useState(notesInitial);
+    const [pinnedNotes, setPinnedNotes] = useState(pinnedNotesInitial);
 
     const alertContext = useContext(AlertContext);
     const {showAlert} = alertContext;
 
+    useEffect(()=>{
+        notes.sort((a, b)=>{
+            if(a.title.length < b.title.length){
+                return 1;
+            }
+            else if(a.title.length > b.title.length){
+                return -1;
+            }
+
+            return 0;
+        })
+    }, [notes]);
+
+    useEffect(()=>{
+        pinnedNotes.sort((a, b)=>{
+            if(a.title.length < b.title.length){
+                return 1;
+            }
+            else if(a.title.length > b.title.length){
+                return -1;
+            }
+
+            return 0;
+        })
+    }, [pinnedNotes]);
 
     //GET ALL NOTES
     const getAllNotes = async () => {
@@ -18,7 +45,7 @@ const NoteState = (props) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
+                'auth-token': sessionStorage.getItem('token')
             }
         });
 
@@ -26,7 +53,14 @@ const NoteState = (props) => {
             return responseData.json();
         }).then((data) => {
             if(data.success){
-                setNotes(data.userNotes);
+                
+                setNotes(data.userNotes.filter((note)=>{
+                    return note.isPinned === false;
+                }));
+
+                setPinnedNotes(data.userNotes.filter((note)=>{
+                    return note.isPinned === true;
+                }));
             }
             else{
                 // showAlert("Boilerplate Error Msg");
@@ -45,7 +79,7 @@ const NoteState = (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
+                'auth-token': sessionStorage.getItem('token')
             },
             body: JSON.stringify(data)
         })
@@ -73,21 +107,30 @@ const NoteState = (props) => {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
+                'auth-token': sessionStorage.getItem('token')
             }
         })
 
         response.then((responseData) => {
             return (responseData.json());
         }).then((data) => {
+            if(data.pinnedStatus){
+                let newPinnedNotes = pinnedNotes.filter((note)=>{
+                    return note._id !== id;
+                });
+                setPinnedNotes(newPinnedNotes)
+            }
+            else{
+                let newNotes = notes.filter((note) => {
+                    return note._id !== id;
+                });
+                setNotes(newNotes);
+            }
         });
 
+        
 
-        let newNotes = notes.filter((note) => {
-            return note._id !== id;
-        })
-
-        setNotes(newNotes);
+        
     }
 
     //EDIT A NOTE
@@ -100,7 +143,7 @@ const NoteState = (props) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
+                'auth-token': sessionStorage.getItem('token')
             },
             body: JSON.stringify(data)
         });
@@ -111,15 +154,30 @@ const NoteState = (props) => {
 
             if(data.success){
                 //logic to edit notes state in client side
-                const notesCopy = JSON.parse(JSON.stringify(notes));
-                for (let i = 0; i < notes.length; i++) {
-                    let element = notes[i];
-                    if (element._id === id) {
-                        notesCopy[i] = data.userNote;
-                        break;
+                if(data.userNote.isPinned){
+                    const pinnedNotesCopy = JSON.parse(JSON.stringify(pinnedNotes));
+                
+                    for (let i = 0; i < pinnedNotes.length; i++) {
+                        let element = pinnedNotes[i];
+                        if (element._id === id) {
+                            pinnedNotesCopy[i] = data.userNote;
+                            break;
+                        }
                     }
+                    setPinnedNotes(pinnedNotesCopy);
                 }
-                setNotes(notesCopy);
+                else{
+                    const notesCopy = JSON.parse(JSON.stringify(notes));
+                    for (let i = 0; i < notes.length; i++) {
+                        let element = notes[i];
+                        if (element._id === id) {
+                            notesCopy[i] = data.userNote;
+                            break;
+                        }
+                    }
+                    setNotes(notesCopy);
+                }
+                
                 showAlert("Note Edited Successfully", "success");
             }
             else{
@@ -144,7 +202,7 @@ const NoteState = (props) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
+                'auth-token': sessionStorage.getItem('token')
             },
             body: JSON.stringify(dataPayload)
         });
@@ -155,30 +213,30 @@ const NoteState = (props) => {
 
             if(data.success){
                 //logic to pin notes state in client side
-                const notesCopy = JSON.parse(JSON.stringify(notes));
-                notes.forEach((note, idx) => {
-                    if(note._id === id){
-                        notesCopy.splice(idx,1);
-                        if(isPinned){
-                            notesCopy.unshift(dataPayload);
-                            return;
-                        }
-                        else{
-                            notesCopy.push(dataPayload);
-                            return;
-                        }
-                    }
-                })
+                if(data.userNote.isPinned){
+                    setPinnedNotes([data.userNote].concat(pinnedNotes));
+                    let newNotes = notes.filter((note)=>{
+                        return note._id !== id;
+                    });
+                    setNotes(newNotes);
 
-                setNotes(notesCopy);
+                }
+                else{
+                    let newPinnedNotes = pinnedNotes.filter((note)=>{
+                        return note._id !== id;
+                    });
+                    setPinnedNotes(newPinnedNotes);
+                    setNotes([data.userNote].concat(notes));
+                }
+                
+                
                 showAlert("Pinning/Unpinning Successful", "success");
-                console.log(notes)
+                console.log(pinnedNotes);
+                console.log(notes);
             }
             else{
                 showAlert("Note could not be pinned/unpinned", "danger");
             }
-
-            
             
         });
 
@@ -186,7 +244,7 @@ const NoteState = (props) => {
     }
 
     return (
-        <NotesContext.Provider value={{ notes, addNote, deleteNote, editNote, pinNote, getAllNotes }}>
+        <NotesContext.Provider value={{ notes, pinnedNotes, addNote, deleteNote, editNote, pinNote, getAllNotes }}>
             {props.children}
         </NotesContext.Provider>
     )

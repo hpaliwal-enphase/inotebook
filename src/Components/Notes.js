@@ -10,7 +10,7 @@ import { ColourPicker } from './ColourPicker';
 
 const Notes = () => {
     const context = useContext(NotesContext);
-    const { notes, getAllNotes, editNote, pinNote, addNote } = context;
+    const { notes, pinnedNotes, getAllNotes, editNote, pinNote, addNote } = context;
 
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
@@ -20,7 +20,7 @@ const Notes = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             getAllNotes()
         }
         else {
@@ -130,14 +130,10 @@ const Notes = () => {
                 <AddNoteNew addNewNote={addNewNote}/>
                 {notes.length === 0 ? 'No items to display' :
                     <>
-                    {notes.map((note) => {
-                        if(note.isPinned){
-                            return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>)
-                        }
+                    {pinnedNotes.length === 0 ? '' : pinnedNotes.map((pinnedNote) => {
+                        return (<NoteItem note={pinnedNote} key={pinnedNote._id} updateNote={updateNote}/>)
                     })}{notes.map((note) => {
-                        if(!note.isPinned){
-                            return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>)
-                        }
+                        return (<NoteItem note={note} key={note._id} updateNote={updateNote}/>)
                     })}
                     </>
                 }
@@ -148,3 +144,4 @@ const Notes = () => {
 }
 
 export default Notes
+   

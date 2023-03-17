@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ThemeContext from '../context/theme/ThemeContext';
 import UserContext from '../context/user/UserContext';
@@ -10,9 +10,16 @@ const Navbar = () => {
     const userContext = useContext(UserContext);
     const { loggedInUser } = userContext;
 
+    useEffect(()=>{
+        if(!sessionStorage.getItem('token')){
+            navigate("/login");
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         navigate("/login");
     }
     return (
@@ -43,7 +50,7 @@ const Navbar = () => {
                                     )}
                                 </div>
                             {
-                            (!localStorage.getItem('token')) ? 
+                            (!sessionStorage.getItem('token')) ? 
                             <>
                                 <Link to="/login" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Login</Link>
                                 <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>

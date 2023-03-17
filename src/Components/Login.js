@@ -36,7 +36,7 @@ const Login = () => {
             if(data.success){
                 //redirect
                 setLoggedInUser(data.userDetails);
-                localStorage.setItem('token', data.token);
+                sessionStorage.setItem('token', data.token);
                 showAlert("Logged in Successfully", "success");
                 navigate("/");
             }

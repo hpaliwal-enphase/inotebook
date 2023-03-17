@@ -16,8 +16,6 @@ import NoteState from './context/notes/NoteState';
 import MainRoutes from './MainRoutes';
 import UserState from './context/user/UserState';
 
-
-
 function App() {
 
 
@@ -25,15 +23,15 @@ function App() {
     <>
       <AlertState>
         <UserState>
-        <ThemeState>
-          <NoteState>
-            <Router>
-              <Navbar/>
-              <Alert/>
-              <MainRoutes />
-            </Router>
-          </NoteState>
-        </ThemeState>
+          <ThemeState>
+            <NoteState>
+              <Router>
+                <Navbar />
+                <Alert />
+                <MainRoutes />
+              </Router>
+            </NoteState>
+          </ThemeState>
         </UserState>
       </AlertState>
     </>
