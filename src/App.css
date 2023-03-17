@@ -37,6 +37,22 @@
   }
 }
 
+.notes-section{
+  height:100vh;
+}
 .carditem {
-  height: 12.0em;
+  height: 14.0em;
+}
+
+
+.container-z{
+  /* display: flex; */
+  /* justify-content: flex-end; */
+  /* align-items: flex-end; */
+  text-align: right;
+}
+
+.item{
+  /* align-self: flex-end; */
+  display: inline-block;
 }

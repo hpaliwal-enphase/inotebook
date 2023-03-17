@@ -7,7 +7,7 @@ const Home = () => {
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
     return (
-        <div className="my-3" data-bs-theme={theme}>
+        <div className="my-3 notes-section" data-bs-theme={theme}>
             <Notes />
         </div>
     )
