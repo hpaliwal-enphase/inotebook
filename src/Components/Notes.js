@@ -29,7 +29,7 @@ const Notes = () => {
         // eslint-disable-next-line
     }, []);
 
-    const [note, setNote] = useState({ id: "", title: "", description: "", tag: "General", colour: "White", isPinned: false });
+    const [note, setNote] = useState({ id: "", title: "", description: "", tag: "General", colour: "Blank", isPinned: false });
     const [addingNewNote, setAddingNewNote] = useState(false);
 
     const handleTextChange = (e) => {
@@ -45,13 +45,13 @@ const Notes = () => {
             editNote(note.id, note.title, note.description, note.tag, note.colour, note.isPinned);
         }
         ref2.current.click();
-        setNote({ id: "", title: "", description: "", tag: "General", colour: "White", isPinned: false });
+        setNote({ id: "", title: "", description: "", tag: "General", colour: "Blank", isPinned: false });
     }
 
     const updateNote = (currentNote) => {
         setAddingNewNote(false);
         ref.current.click();
-        setNote({ ...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id, colour: currentNote.colour, isPinned: currentNote.isPinned });
+        setNote({ ...note, title: currentNote.title, description: currentNote.description, tag: currentNote.tag, id: currentNote._id, colour: currentNote.colour });
     }
 
     const updateColour = (colour) => {

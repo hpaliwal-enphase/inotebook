@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertContext from '../context/alerts/AlertContext';
 import ThemeContext from '../context/theme/ThemeContext';
-import UserContext from '../context/user/UserContext';
 
 
 const Login = () => {
@@ -15,9 +14,6 @@ const Login = () => {
 
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
-
-    const userContext = useContext(UserContext);
-    const { loggedInUser, setLoggedInUser } = userContext;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +31,6 @@ const Login = () => {
             console.log(data);
             if(data.success){
                 //redirect
-                setLoggedInUser(data.userDetails);
                 localStorage.setItem('token', data.token);
                 showAlert("Logged in Successfully", "success");
                 navigate("/");

@@ -53,10 +53,6 @@ router.post('/createuser', [
 
         res.json({
             token: authToken,
-            userDetails: {
-                name: user.name,
-                email: user.email
-            },
             success: true
         });
     }
@@ -86,7 +82,7 @@ router.post('/login', [
     const {email, password} = req.body;
     try {
         let user = await User.findOne({email}); //{email} same as {email: email}
-        // console.log(user);
+        console.log(user);
         if(!user){
             return res.status(400).json({
                 error: "This email is not registered with us.",
@@ -112,10 +108,6 @@ router.post('/login', [
         const authToken = jwt.sign(payload, JWT_SECRET);
         res.json({
             token: authToken,
-            userDetails: {
-                name: user.name,
-                email: user.email
-            },
             success: true
         });
     } catch (error) {
