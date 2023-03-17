@@ -150,10 +150,6 @@ router.delete('/deletenote/:id', fetchUser, async(req, res)=>{
         const deletedNote = await Note.findByIdAndDelete(req.params.id);
         res.json({
             message: `Note with ${deletedNote._id} has been deleted.`,
-            note: {
-                title: deletedNote.title,
-                isPinned: deletedNote.isPinned
-            },
             success: true
         });
     } catch (error) {
