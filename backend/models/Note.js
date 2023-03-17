@@ -25,7 +25,15 @@ const NoteSchema = new Schema({
     isPinned:{
         type: Boolean,
         default: false
-    }
+    },
+    dateCreated:{
+        type: Date,
+        required: true
+    },
+    dateModified:{
+        type: Date,
+        required: true
+    },
   });
 
   module.exports = mongoose.model('note', NoteSchema);

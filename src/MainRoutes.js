@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 // import './App.css';
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  useNavigate
 } from "react-router-dom";
 // import Navbar from './Components/Navbar';
 import Home from './Components/Home';
@@ -13,10 +14,18 @@ import Signup from './Components/Signup';
 import Login from './Components/Login';
 
 import ThemeContext from './context/theme/ThemeContext';
+import UserContext from './context/user/UserContext';
 
 const MainRoutes = () => {
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;
+
+    const userContext = useContext(UserContext);
+    const { loggedInUser } = userContext;
+
+    // const navigate = useNavigate();
+
+    // console.log(loggedInUser == null);
 
     document.getElementById('root').setAttribute('style', `background-color: ${theme=== "dark" ? "#343a40" : "white"}`);
     return (

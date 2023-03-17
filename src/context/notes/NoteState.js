@@ -15,29 +15,37 @@ const NoteState = (props) => {
 
     useEffect(()=>{
         notes.sort((a, b)=>{
-            if(a.title.length < b.title.length){
+            const date1 = new Date(a.dateModified);
+            const date2 = new Date(b.dateModified);
+            
+            if(date1 < date2){
                 return 1;
             }
-            else if(a.title.length > b.title.length){
+            else if(date1 > date2){
                 return -1;
             }
 
             return 0;
         })
-    }, [notes]);
+
+        // console.log("after sorting notes are: "+JSON.stringify(notes));
+    }, []);
 
     useEffect(()=>{
         pinnedNotes.sort((a, b)=>{
-            if(a.title.length < b.title.length){
+            const date1 = new Date(a.dateModified);
+            const date2 = new Date(b.dateModified);     
+            if(date1 < date2){
                 return 1;
             }
-            else if(a.title.length > b.title.length){
+            else if(date1 > date2){
                 return -1;
             }
 
             return 0;
-        })
-    }, [pinnedNotes]);
+        });
+        // console.log("after sorting pinned notes are: "+JSON.stringify(pinnedNotes));
+    }, []);
 
     //GET ALL NOTES
     const getAllNotes = async () => {
@@ -61,6 +69,7 @@ const NoteState = (props) => {
                 setPinnedNotes(data.userNotes.filter((note)=>{
                     return note.isPinned === true;
                 }));
+                
             }
             else{
                 // showAlert("Boilerplate Error Msg");
@@ -73,7 +82,8 @@ const NoteState = (props) => {
     //ADD A NOTE
     const addNote = (title, description, tag, colour, isPinned) => {
         console.log("adding a new note with tag");
-        const data = { title, description, tag, colour, isPinned };
+        const data = { title, description, tag, colour, isPinned, dateCreated: new Date() };
+        
         //API Call
         const response = fetch(`${host}/api/notes/addnote`, {
             method: 'POST',
@@ -89,7 +99,7 @@ const NoteState = (props) => {
         }).then((data) => {
             console.log(data);
             if(data.success){
-                setNotes(notes.concat(data.userNote));
+                setNotes([data.userNote].concat(notes));
                 showAlert("Note Added Successfully", "success");
             }
             else{
@@ -137,7 +147,7 @@ const NoteState = (props) => {
     const editNote = (id, title, description, tag, colour, isPinned) => {
         console.log("editing note with id: " + id);
 
-        const data = { title, description, tag, colour, isPinned };
+        const data = { title, description, tag, colour, isPinned, dateModified: new Date() };
         //API Call
         const response = fetch(`${host}/api/notes/updatenote/${id}`, {
             method: 'PUT',
@@ -155,27 +165,34 @@ const NoteState = (props) => {
             if(data.success){
                 //logic to edit notes state in client side
                 if(data.userNote.isPinned){
-                    const pinnedNotesCopy = JSON.parse(JSON.stringify(pinnedNotes));
-                
-                    for (let i = 0; i < pinnedNotes.length; i++) {
-                        let element = pinnedNotes[i];
-                        if (element._id === id) {
-                            pinnedNotesCopy[i] = data.userNote;
-                            break;
-                        }
-                    }
-                    setPinnedNotes(pinnedNotesCopy);
+
+                    let pinnedNotesCopy = pinnedNotes.filter((note)=>{
+                        return note._id !== id;
+                    });
+
+                    setPinnedNotes([data.userNote].concat(pinnedNotesCopy))
+                    // for (let i = 0; i < pinnedNotes.length; i++) {
+                    //     let element = pinnedNotes[i];
+                    //     if (element._id === id) {
+                    //         pinnedNotesCopy[i] = data.userNote;
+                    //         break;
+                    //     }
+                    // }
+                    // setPinnedNotes(pinnedNotesCopy);
                 }
                 else{
-                    const notesCopy = JSON.parse(JSON.stringify(notes));
-                    for (let i = 0; i < notes.length; i++) {
-                        let element = notes[i];
-                        if (element._id === id) {
-                            notesCopy[i] = data.userNote;
-                            break;
-                        }
-                    }
-                    setNotes(notesCopy);
+                    const notesCopy = notes.filter((note)=>{
+                        return note._id !== id;
+                    });
+                    setNotes([data.userNote].concat(notesCopy));
+                    // for (let i = 0; i < notes.length; i++) {
+                    //     let element = notes[i];
+                    //     if (element._id === id) {
+                    //         notesCopy[i] = data.userNote;
+                    //         break;
+                    //     }
+                    // }
+                    // setNotes(notesCopy);
                 }
                 
                 showAlert("Note Edited Successfully", "success");

@@ -9,7 +9,7 @@ const Alert = (props) => {
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }
     return (
-        <div style={{ height: '50px' }}>
+        <div style={{ height: '10px' }}>
             {
                 (alert) ?
                     (<div className={`alert alert-${alert.type} alert-dismissible`} role="alert">

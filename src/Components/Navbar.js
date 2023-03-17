@@ -10,12 +10,7 @@ const Navbar = () => {
     const userContext = useContext(UserContext);
     const { loggedInUser } = userContext;
 
-    useEffect(()=>{
-        if(!sessionStorage.getItem('token')){
-            navigate("/login");
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    
 
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -24,7 +19,7 @@ const Navbar = () => {
     }
     return (
         <div data-bs-theme={[theme]} >
-            <nav className="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+            <nav className="navbar static-top navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">iNoteBook</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

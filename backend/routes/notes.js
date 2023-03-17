@@ -15,7 +15,7 @@ const router = express.Router();
 router.get('/fetchallnotes', fetchUser, async(req, res)=>{
     try {
         const userId = req.user.id;
-        const userNotes = await Note.find({user: userId});
+        const userNotes = await Note.find({user: userId}).sort({dateModified: -1});
         res.json({
             userNotes: userNotes,
             success: true
@@ -46,8 +46,8 @@ router.post('/addnote', fetchUser, [
 
     try {
         const userId = req.user.id;
-        const {title, description, tag, colour, isPinned} = req.body;
-        const userNote = await Note.create({user: userId, title, description, tag, colour, isPinned});
+        const {title, description, tag, colour, isPinned, dateCreated} = req.body;
+        const userNote = await Note.create({user: userId, title, description, tag, colour, isPinned, dateCreated, dateModified: dateCreated});
         res.json({
             userNote: userNote,
             success: true
@@ -92,6 +92,8 @@ router.put('/updatenote/:id', fetchUser, async(req, res)=>{
         }
 
         newNote.isPinned = isPinned;
+
+        newNote.dateModified = new Date();
 
         //find the Note to be updated. Check Permissions.
         const note = await Note.findById(req.params.id);
