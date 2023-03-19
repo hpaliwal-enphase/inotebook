@@ -17,5 +17,6 @@ i{
 }
 
 #root{
-  height: 100em;
+  min-height: 100vh;
+  height: 100%;
 }
