@@ -10,7 +10,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(!sessionStorage.getItem('token')){
+        if(!JSON.parse(sessionStorage.getItem('userDetails'))){
             navigate("/login");
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps

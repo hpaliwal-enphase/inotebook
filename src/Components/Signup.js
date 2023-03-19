@@ -41,6 +41,7 @@ const Signup = () => {
                 //redirect
                 setLoggedInUser(data.userDetails);
                 sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('userDetails', JSON.stringify(data.userDetails));
                 showAlert("Account Created Successfully", "success");
                 navigate("/");
             }

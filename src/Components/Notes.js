@@ -20,7 +20,7 @@ const Notes = () => {
 
     const navigate = useNavigate();
     useEffect(() => {
-        if (sessionStorage.getItem('token')) {
+        if (JSON.parse(sessionStorage.getItem('userDetails'))) {
             getAllNotes()
         }
         else {

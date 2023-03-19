@@ -21,7 +21,18 @@ const MainRoutes = () => {
     const { theme } = themeContext;
 
     const userContext = useContext(UserContext);
-    const { loggedInUser } = userContext;
+    const { setLoggedInUser } = userContext;
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(!JSON.parse(sessionStorage.getItem('userDetails'))){
+            navigate("/login");
+        }
+        const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+        setLoggedInUser(userDetails);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // const navigate = useNavigate();
 

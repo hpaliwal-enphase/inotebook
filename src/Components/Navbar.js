@@ -15,6 +15,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userDetails');
         navigate("/login");
     }
     return (
@@ -45,7 +46,7 @@ const Navbar = () => {
                                     )}
                                 </div>
                             {
-                            (!sessionStorage.getItem('token')) ? 
+                            (!JSON.parse(sessionStorage.getItem('userDetails'))) ? 
                             <>
                                 <Link to="/login" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Login</Link>
                                 <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>
