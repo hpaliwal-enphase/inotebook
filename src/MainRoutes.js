@@ -34,10 +34,6 @@ const MainRoutes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // const navigate = useNavigate();
-
-    // console.log(loggedInUser == null);
-
     document.getElementById('root').setAttribute('style', `background-color: ${theme=== "dark" ? "#343a40" : "white"}`);
     return (
         <div className='container py-3' data-bs-theme={theme}>

@@ -6,7 +6,7 @@ import UserContext from '../context/user/UserContext';
 
 const Signup = () => {
     const [credentials, setCredentials] = useState({name:"", email: "", password: "", confirmPassword: ""});
-    const host = "http://localhost:5000";
+    const host = "http://localhost:5002";
     let navigate = useNavigate();
 
     const alertContext = useContext(AlertContext);
@@ -36,7 +36,6 @@ const Signup = () => {
         response.then((responseData) => {
             return responseData.json();
         }).then((data) => {
-            console.log(data);
             if(data.success){
                 //redirect
                 setLoggedInUser(data.userDetails);

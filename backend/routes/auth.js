@@ -85,8 +85,7 @@ router.post('/login', [
 
     const {email, password} = req.body;
     try {
-        let user = await User.findOne({email}); //{email} same as {email: email}
-        // console.log(user);
+        let user = await User.findOne({email}); // {email} same as {email: email}
         if(!user){
             return res.status(400).json({
                 error: "This email is not registered with us.",
@@ -95,7 +94,6 @@ router.post('/login', [
         }
 
         const pwdCompare = await bcrypt.compare(password, user.password);
-        console.log(pwdCompare);
         if(!pwdCompare){
             return res.status(400).json({
                 error: "Please enter correct credentials.",

@@ -7,7 +7,7 @@ import UserContext from '../context/user/UserContext';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({email: "", password: ""});
-    const host = "http://localhost:5000";
+    const host = "http://localhost:5002";
     let navigate = useNavigate();
 
     const alertContext = useContext(AlertContext);
@@ -17,7 +17,7 @@ const Login = () => {
     const { theme } = themeContext;
 
     const userContext = useContext(UserContext);
-    const { loggedInUser, setLoggedInUser } = userContext;
+    const { setLoggedInUser } = userContext;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,9 +32,8 @@ const Login = () => {
         response.then((responseData) => {
             return responseData.json();
         }).then((data) => {
-            console.log(data);
             if(data.success){
-                //redirect
+                // redirect
                 setLoggedInUser(data.userDetails);
                 sessionStorage.setItem('token', data.token);
                 sessionStorage.setItem('userDetails', JSON.stringify(data.userDetails));

@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-import AlertContext from '../context/alerts/AlertContext';
 import NotesContext from '../context/notes/NoteContext';
 import ThemeContext from '../context/theme/ThemeContext';
 import { ColourPicker } from './ColourPicker';
@@ -7,9 +6,7 @@ import { ColourPicker } from './ColourPicker';
 
 const AddNote = () => {
     const context = useContext(NotesContext);
-    const alertContext = useContext(AlertContext);
     const {addNote} = context;
-    const {showAlert} = alertContext;
 
     const themeContext = useContext(ThemeContext);
     const { theme } = themeContext;

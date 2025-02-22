@@ -1,5 +1,4 @@
 const NoteColourMapper = (colour, theme) => {
-    console.log(colour);
     switch (colour) {
         case "light":
             return "white";

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
+const { mongo_db_user, mongo_db_userpwd } = require('./secrets');
 
-const mongoURI = "mongodb+srv://hitanshpaliwal:lAX5YKHjoAhyYfiL@cluster0.ixqkjeu.mongodb.net/inotebook?retryWrites=true&w=majority";
+const mongoURI = `mongodb+srv://${mongo_db_user}:${mongo_db_userpwd}@inotebookcluster.gmlgi.mongodb.net/inotebook?retryWrites=true&w=majority`;
 
-// const mongoURI2 = "mongodb+srv://hitanshpaliwal:lAX5YKHjoAhyYfiL@cluster0.ixqkjeu.mongodb.net/test"
 
 const connectToMongo = () => {
     mongoose.connect(mongoURI, ()=>{

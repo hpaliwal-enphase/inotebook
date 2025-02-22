@@ -6,13 +6,12 @@ import "../App.css";
 const NoteItem = (props) => {
     const context = useContext(NotesContext);
     const { deleteNote, pinNote } = context;
-    const { note, updateNote, updatePinnedStatus } = props;
+    const { note, updateNote } = props;
 
     const alertContext = useContext(AlertContext);
     const { showAlert } = alertContext;
 
     const handlePinClick = (note) => {
-        // updatePinnedStatus({...note, isPinned: !note.isPinned});
         pinNote(note);
     }
 
@@ -26,10 +25,7 @@ const NoteItem = (props) => {
                             <i className={`fa-${note.isPinned ? `solid` : `regular`} fa-hand`} onClick={() => handlePinClick(note)}></i>
                         </div>
                         <h6 className="card-subtitle mb-2 text-muted">{note.tag}</h6>
-                        <p className="card-text">{note.description.length < 100 ? note.description: note.description.substring(0,100)+`...`}</p>
-
-                        {/* for isPinned */}
-                        {/* <p className="card-text">{JSON.stringify(note.isPinned)}</p> */}
+                        <p className="card-text">{note.description.length < 100 ? note.description : note.description.substring(0, 100) + `...`}</p>
                     </div>
                     <div className="d-flex">
                         <i className="fa-regular fa-trash-can mx-2" onClick={() => { deleteNote(note._id); showAlert("Note Deleted Successfully", "success") }}></i>
