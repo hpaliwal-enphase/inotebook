@@ -4,7 +4,6 @@ import AlertContext from '../alerts/AlertContext';
 import { getOrderedNotes } from '../../Utils/getOrderedNotes';
 
 const NoteState = (props) => {
-    const host = "http://localhost:5002";
     const notesInitial = [];
 
     const [notes, setNotes] = useState(notesInitial);
@@ -18,7 +17,7 @@ const NoteState = (props) => {
 
     //GET ALL NOTES
     const getAllNotes = async () => {
-        const response = fetch(`${host}/api/notes/fetchallnotes`, {
+        const response = fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/notes/fetchallnotes`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ const NoteState = (props) => {
         const data = { title, description, tag, colour, isPinned, dateCreated: new Date() };
 
         //API Call
-        const response = fetch(`${host}/api/notes/addnote`, {
+        const response = fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/notes/addnote`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +69,7 @@ const NoteState = (props) => {
     //DELETE A NOTE
     const deleteNote = (id) => {
         //api call
-        const response = fetch(`${host}/api/notes/deletenote/${id}`, {
+        const response = fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/notes/deletenote/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +92,7 @@ const NoteState = (props) => {
 
         const data = { title, description, tag, colour, isPinned, dateModified: new Date() };
         //API Call
-        const response = fetch(`${host}/api/notes/updatenote/${id}`, {
+        const response = fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/notes/updatenote/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +128,7 @@ const NoteState = (props) => {
         const dataPayload = { _id: id, title, description, tag, colour, isPinned: isPinned };
 
         // API Call
-        const response = fetch(`${host}/api/notes/updatenote/${id}`, {
+        const response = fetch(`${process.env.REACT_APP_BACKEND_HOST}/api/notes/updatenote/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

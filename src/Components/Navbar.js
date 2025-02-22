@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ThemeContext from '../context/theme/ThemeContext';
 import UserContext from '../context/user/UserContext';
@@ -9,8 +9,6 @@ const Navbar = () => {
 
     const userContext = useContext(UserContext);
     const { loggedInUser } = userContext;
-
-    
 
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -36,32 +34,32 @@ const Navbar = () => {
                             </li>
                         </ul>
                         <form className="d-flex" role="search">
-                        {
-                            <div className='d-flex'>
-                                <div className='d-flex align-items-center w-100 ms-1 me-4'>
-                                    {theme === "dark" ? (
-                                        <i className="fa-regular fa-lightbulb d-flex light" style={{fontSize:'1.5rem', color:'#ffffff'}} onClick={reverseTheme} />
-                                    ) : (
-                                        <i className="fa-regular fa-moon d-flex" style={{fontSize:'1.5rem'}} onClick={reverseTheme}/>
-                                    )}
-                                </div>
                             {
-                            (!JSON.parse(sessionStorage.getItem('userDetails'))) ? 
-                            <>
-                                <Link to="/login" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Login</Link>
-                                <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>
-                            </>
-                              : (
-                                <div className="d-flex justify-content-center">
-                                    <div className="me-4 navbar-brand">Hi {loggedInUser.name}!</div>
-                                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                <div className='d-flex'>
+                                    <div className='d-flex align-items-center w-100 ms-1 me-4'>
+                                        {theme === "dark" ? (
+                                            <i className="fa-regular fa-lightbulb d-flex light" style={{ fontSize: '1.5rem', color: '#ffffff' }} onClick={reverseTheme} />
+                                        ) : (
+                                            <i className="fa-regular fa-moon d-flex" style={{ fontSize: '1.5rem' }} onClick={reverseTheme} />
+                                        )}
+                                    </div>
+                                    {
+                                        (!JSON.parse(sessionStorage.getItem('userDetails'))) ?
+                                            <>
+                                                <Link to="/login" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Login</Link>
+                                                <Link to="/signup" className="btn btn-primary mx-1" tabIndex="-1" role="button" aria-disabled="true">Signup</Link>
+                                            </>
+                                            : (
+                                                <div className="d-flex justify-content-center">
+                                                    <div className="me-4 navbar-brand">Hi {loggedInUser.name}!</div>
+                                                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                                </div>
+                                            )
+                                    }
                                 </div>
-                            )
                             }
-                            </div>
-                        }
-                        
-                        
+
+
                         </form>
                     </div>
                 </div>

@@ -11,9 +11,6 @@ import MainRoutes from './MainRoutes';
 import UserState from './context/user/UserState';
 
 function App() {
-
-
-
   return (
     <>
       <AlertState>
