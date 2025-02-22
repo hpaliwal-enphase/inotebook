@@ -11,13 +11,11 @@ const router = express.Router();
 router.get('/fetchallnotes', fetchUser, async (req, res) => {
     try {
         const userId = req.user.id;
-        console.log('1');
         const userNotes = await Note.find({ user: userId }).sort({ dateModified: -1 });
         res.json({
             userNotes: userNotes,
             success: true
         });
-        console.log('2');
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
