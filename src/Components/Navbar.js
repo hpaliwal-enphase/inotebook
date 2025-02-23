@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ThemeContext from '../context/theme/ThemeContext';
 import UserContext from '../context/user/UserContext';
+import NoteContext from '../context/notes/NoteContext';
 
 const Navbar = () => {
     const themeContext = useContext(ThemeContext);
@@ -10,11 +11,15 @@ const Navbar = () => {
     const userContext = useContext(UserContext);
     const { loggedInUser } = userContext;
 
+    const notesContext = useContext(NoteContext);
+    const { setNotes } = notesContext;
+
     const navigate = useNavigate();
     const handleLogout = () => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('userDetails');
         navigate("/login");
+        setNotes([]);
     }
     return (
         <div data-bs-theme={[theme]} >
