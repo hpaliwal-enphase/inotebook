@@ -14,3 +14,4 @@ For the backend:
 Once your backend is setup, add your backend url into a .env file in the root directory as the `REACT_APP_BACKEND_HOST` env variable value.
 
 Demo: 
+![ScreenRecording2025-03-02at5 14 39AM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/b639646a-2bf9-4bfb-8514-a558a00d0d2c)
