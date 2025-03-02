@@ -1,3 +1,9 @@
+Hosted: https://inotebook-secure.vercel.app/login
+
+Admin credentials:
+email: `admin@admin.com`
+pwd: `adminadmin`
+
 To run locally: 
 
 For the frontend: 
