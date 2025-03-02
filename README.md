@@ -1,4 +1,4 @@
-Hosted: https://inotebook-secure.vercel.app/login
+Hosted: https://inotebook-secure.vercel.app/
 
 Admin credentials:
 email: `admin@admin.com`
